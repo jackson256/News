@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.News_SDMapper">
+	<!-- 根据userId查询新闻 -->
+	<select id="getNews" parameterType="int" resultType="news">
+		select * from news where userId=#{userId}
+	</select>
+	<!-- 修改新闻数据 -->
+	<update id="updateNews" parameterType="news" >
+		update news <set>
+			<if test="title!=''">
+				title=#{title},
+			</if>
+			<if test="content!=''">
+				content=#{content},
+			</if>
+			<if test="categoryId!=''">
+				categoryId=#{categoryId}
+			</if>
+		</set>
+		where id=#{id};
+	</update>
+
+	<insert id="insertNews" parameterType="news">
+		insert into news (title,content,createTime,categoryId,userId,visits) values(#{title},#{content},#{createTime},#{categoryId},#{userId},0)
+	</insert>
+
+	<!-- 根据id查询新闻 -->
+	<select id="getTitle" resultType="java.lang.String" parameterType="int">
+		select title from news where id=#{id}
+	</select>
+	
+	<delete id="deleteNews" parameterType="int">
+		delete from news where id=#{id}
+	</delete>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comment where id=#{id}
+	</delete>
+	
+	<delete id="deleteCommentByNewsId" parameterType="int">
+		delete from comment where newsId=#{newsId}
+	</delete>
+	
+	<select id="getNewsById" resultType="news" parameterType="int">
+		select * from news where id=#{id}
+	</select>
+	
+	<!-- <resultMap type="orders" id="ordersMap">
+		<id property="id" column="id" />
+		<result property="order_number" column="order_number" />
+		关联订单项
+		<collection property="detailList" ofType="orderDetail">
+			<id property="id" column="d_id" />
+			<result property="item_num" column="item_num" />
+			<result property="item_price" column="item_price" />
+			<association property="item" javaType="items">
+				<id property="id" column="i_id"/>
+				<result property="item_name" column="item_name"/>
+				<result property="item_price" column="item_price"/>
+			</association>
+		</collection>
+	</resultMap>
+	<select id="getOrders" resultMap="ordersMap">
+		select o.id id, o.user_id, d.id d_id, i.id i_id, i.item_name,i.item_price
+		from orders o, orderdetail d, items i
+		where o.id = d.orders_id and d.item_id=i.id
+	</select> -->
+</mapper>

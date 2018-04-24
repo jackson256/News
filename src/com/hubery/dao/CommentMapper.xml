@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.CommentMapper">
+
+	<select id="getallComment" parameterType="int" resultType="comment">
+		select * from comment where userId=#{id};
+	</select>
+	
+	<select id="getByID" parameterType="int" resultType="news">
+		select * from news where id=#{id};
+	</select>	
+	
+	<!-- 根据评论的id查找评论人的信息 一对一  -->
+	<select id="getCommentByCommentId" parameterType="int" resultMap="commentMap">
+		SELECT comment.id comment_id,user.id user_id,comment.*,user.* 
+		FROM comment,user WHERE comment.userId=user.id 
+		AND comment.id=#{commentId}
+	</select> 
+	
+	<resultMap type="comment" id="commentMap">
+		<id property="id" column="comment_id"/>			
+		<result property="content" column="content"/>
+		<result property="submitTime" column="submitTime"/>
+		<result property="userId" column="userId"/>
+		<result property="newsId" column="newsId"/>
+		<association property="user" javaType="user">
+			<id property="id" column="user_id"/>
+			<result property="userName" column="userName"/>
+			<result property="password" column="password"/>
+			<result property="userRole" column="userRole"/>
+			<result property="email" column="email"/>
+			<result property="telephone" column="telephone"/>
+		</association>		
+	</resultMap>
+	
+	<!-- 给新闻添加评论 -->
+	<insert id="addCommentToNews" parameterType="comment">
+		INSERT INTO comment(content,submitTime,userId,newsId) VALUES 
+		(#{content},#{submitTime},#{userId},#{newsId})		
+	</insert>
+		
+</mapper>

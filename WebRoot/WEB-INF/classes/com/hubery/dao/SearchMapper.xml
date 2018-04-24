@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.SearchMapper">
+	<select id="searchNewsByKeywords" resultType="news" parameterType="String">
+		SELECT * FROM news WHERE title LIKE CONCAT('%',#{keywords},'%')		
+	</select>
+
+</mapper>

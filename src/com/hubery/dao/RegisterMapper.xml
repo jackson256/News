@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.RegisterMapper">
+	<!-- 校验账号 -->
+	<select id="verify" resultType="user" parameterType="java.lang.String">
+		select * from user where userName=#{0} and password=#{1}
+	</select>
+	<!-- 修改密码 -->
+	<update id="updatePwd" parameterType="java.lang.String">
+		update user set password=#{0} where userName=#{1}
+	</update>
+
+
+	<!-- <resultMap type="orders" id="ordersMap">
+		<id property="id" column="id" />
+		<result property="order_number" column="order_number" />
+		关联订单项
+		<collection property="detailList" ofType="orderDetail">
+			<id property="id" column="d_id" />
+			<result property="item_num" column="item_num" />
+			<result property="item_price" column="item_price" />
+			<association property="item" javaType="items">
+				<id property="id" column="i_id"/>
+				<result property="item_name" column="item_name"/>
+				<result property="item_price" column="item_price"/>
+			</association>
+		</collection>
+	</resultMap>
+	<select id="getOrders" resultMap="ordersMap">
+		select o.id id, o.user_id, d.id d_id, i.id i_id, i.item_name,i.item_price
+		from orders o, orderdetail d, items i
+		where o.id = d.orders_id and d.item_id=i.id
+	</select> -->
+</mapper>

@@ -1,0 +1,96 @@
+body,div,p,ul,li,dl,dt,dd,h1,a{margin:0; padding:0;} 
+html{background:url(../img/images/bg.gif) repeat-x;} 
+body{background:url(../img/images/clouds.gif) repeat-x;padding-top:45px;font-family:Verdana, Geneva, sans-serif;}
+img{border:none;} 
+
+#header,#banner,#content,#footer,#pageHeader{width:1000px; margin:0 auto;} 
+
+/*#logo{width:220px; height:54px; float:left; background:#991616;}
+#logo img{display:block;} */
+
+#nav{width:1000px; height:54px; float:left; background:#393838; list-style:none;}
+#nav li{float:left;}
+#nav li a{display:block; width:110px; height:54px; line-height:54px; text-align:center; font-size:20px; color:#ccc; text-decoration:none; float:left;}
+#nav li a:hover{color:#fff;} 
+#nav li .navActive{ background:url(../img/images/navHoverBg.png) no-repeat; color:#fff;}
+
+
+#header{overflow:hidden;}
+
+#banner .bannerlogo{display:block; width:1000px; height:292px; margin:10px auto;}
+#banner .bannerlogo img{display:block; width:1000px; height:292px;}
+
+#banner{width:1000px; height:292px; position:relative; margin:10px auto;}
+
+
+#content{overflow:hidden; background:#eaeaea; font-size:12px; line-height:24px;} 
+
+#leftArticle,#centerArticle,#rightInfo{margin:10px; float:left; display:inline;}
+#leftArticle{width:300px;}
+#centerArticle{width:300px;}
+#rightInfo{width:300px;} 
+
+#articlePicA,#articlePicA img{display:block;} 
+ 
+
+#content dl{margin-bottom:10px;}
+#content dl dt{
+    background:url(../img/images/title.jpg) no-repeat;
+    height:32px;
+    line-height:32px;
+    color:#FFF;
+    font-size:14px;
+    font-weight:bold;
+    text-indent:20px;
+}
+
+#content dl dd{
+    height:24px;
+    line-height:24px;
+    background:url(../img/images/dot.gif) no-repeat 7px 10px;
+    text-indent:16px;
+}
+
+#content dl dd a{color:#333; text-decoration:none;}
+#content dl dd a:hover{color:#900; text-decoration:underline;}
+
+#articleUrl{text-align:left}
+#article_title,#article_info{text-align:center}
+
+
+
+#footer{ 
+background:#393838; 
+height:52px; 
+line-height:18px; 
+margin-top:10px;
+padding-top:18px; 
+text-align:center; 
+color:#ccc; 
+font-size:12px; 
+}  
+#footer a{color:#ccc; text-decoration:none;} 
+#footer a:hover{text-decoration:underline;} 
+
+#linkstudy1{
+display:block;
+width:107px;
+height:107px;
+position:absolute;
+top:0;
+right:0;
+}
+
+
+#banner{}
+#banner ol{position:absolute;width: 80px;height: 20px;top:230px;left:10px;}
+#banner ol li{float:left;width: 10px;height: 10px;margin: 5px;background: #fff;list-style: none}
+#banner ul li{list-style: none}
+#banner ol li.seleted{background: #1AA4CA;}
+
+
+
+
+
+
+

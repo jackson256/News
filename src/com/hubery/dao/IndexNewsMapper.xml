@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.IndexNewsMapper">
+	
+	<!-- 根据新闻的类别，查询前5条新闻，将新闻标题显示在首页相应位置 -->	
+	<select id="getLatestFiveNewsByCategory" resultType="news" parameterType="java.lang.String">
+		SELECT * FROM news WHERE categoryId = (SELECT id FROM category WHERE name=#{categoryName})
+		ORDER BY createTime DESC 
+		LIMIT 5
+	</select>
+	
+	
+	<!-- 查询最新的前6条新闻，将新闻标题显示在首页->新闻零距离 -->
+	<select id="getLatestNews" resultType="news">
+		SELECT * FROM news
+		ORDER BY createTime DESC 
+		LIMIT 6
+	</select>
+	
+	<!-- 查询访问量最高的18条新闻，将新闻标题显示在首页->特别关注 -->		
+	<select id="getPopularNews" resultType="news">
+		SELECT * FROM news
+		ORDER BY visits DESC 
+		LIMIT 18
+	</select>
+	
+	
+	<!-- 根据新闻id查找News-一对多查询 -->		
+	<select id="getNewsById" parameterType="int" resultMap="newsMap">
+	
+		SELECT news.id news_id,news.content news_content,user.id user_id,
+		category.id category_id,comment.id comment_id,comment.content comment_content,
+		news.*,user.*,category.*,comment.* 
+		FROM news
+		LEFT JOIN user ON news.userId=user.id
+		LEFT JOIN category ON news.categoryId=category.id
+		LEFT JOIN comment ON news.id=comment.newsId
+		WHERE news.id=#{id}
+		
+		<!-- SELECT news.id news_id,news.content news_content,user.id user_id,
+		category.id category_id,comment.id comment_id,comment.content comment_content,
+		news.*,user.*,category.*,comment.*		
+		FROM news,user,category,comment
+		WHERE news.userId=user.id
+		AND news.categoryId=category.id
+		AND news.id=comment.newsId
+		AND news.id=#{id} -->
+	</select> 
+	
+	<resultMap type="news" id="newsMap">
+		<!-- 重命名 news_id -->
+		<id property="id" column="news_id"/>
+		<result property="title" column="title"/>
+		<!-- 重命名 news_content -->
+		<result property="content" column="news_content"/>
+		<result property="createTime" column="createTime"/>
+		<result property="categoryId" column="categoryId"/>
+		<result property="userId" column="userId"/>
+		<result property="visits" column="visits"/>
+		<association property="user" javaType="user">
+			<!-- 重命名 user_id -->
+			<id property="id" column="user_id"/>
+			<result property="userName" column="userName"/>
+			<result property="password" column="password"/>
+			<result property="userRole" column="userRole"/>
+			<result property="email" column="email"/>
+			<result property="telephone" column="telephone"/>
+		</association>
+		<association property="category" javaType="category">
+			<!-- 重命名 category_id -->
+			<id property="id" column="category_id"/>
+			<result property="name" column="name"/>
+		</association>
+		<collection property="comments" ofType="comment">
+			<!-- 重命名 comment_id -->
+			<id property="id" column="comment_id"/>
+			<!-- 重命名 comment_content -->
+			<result property="content" column="comment_content"/>
+			<result property="submitTime" column="submitTime"/>
+			<result property="userId" column="userId"/>
+			<result property="newsId" column="newsId"/>
+		</collection> 		
+	</resultMap>
+	
+	
+	<!-- 根据新闻的类别，查询该类别下所有新闻,与user表关联 -->	
+	<select id="getNewsByCategory" resultMap="newsUserMap" parameterType="java.lang.String">
+		SELECT news.id news_id,user.id user_id,news.*,user.* 
+		FROM news,user
+		WHERE news.userId = user.id
+		AND categoryId = (SELECT id FROM category WHERE name=#{categoryName})
+		ORDER BY createTime DESC		
+	</select>
+	
+	<resultMap type="news" id="newsUserMap">
+		<!-- 重命名 news_id -->
+		<id property="id" column="news_id"/>
+		<result property="title" column="title"/>
+		<!-- 重命名 news_content -->
+		<result property="content" column="content"/>
+		<result property="createTime" column="createTime"/>
+		<result property="categoryId" column="categoryId"/>
+		<result property="userId" column="userId"/>
+		<result property="visits" column="visits"/>
+		<association property="user" javaType="user">
+			<!-- 重命名 user_id -->
+			<id property="id" column="user_id"/>
+			<result property="userName" column="userName"/>
+			<result property="password" column="password"/>
+			<result property="userRole" column="userRole"/>
+			<result property="email" column="email"/>
+			<result property="telephone" column="telephone"/>
+		</association>		
+	</resultMap>
+	
+	
+	 <!-- 根据新闻的类别查找新闻，从startNum往后5条-》查看更多功能：AJAX实现 - cancelled -->	 
+	<select id="getFiveNewsByCategory" resultType="news">
+		SELECT * FROM news WHERE categoryId = (SELECT id FROM category WHERE name=#{0})
+		ORDER BY createTime DESC LIMIT #{1},5
+	</select>
+	
+	
+</mapper>

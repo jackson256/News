@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 填写接口的映射 -->
+<mapper namespace="com.hubery.dao.UserMapper">
+	<!-- 添加用户 -->
+	<insert id="addUser" parameterType="user">
+	insert into user(userName,password,userRole,email) values
+	(#{userName},#{password},#{userRole},#{email})
+	</insert>
+	<!-- 查询所有用户名 -->
+	<select id="getName" resultType="java.lang.String">
+		select userName from user;
+	</select>
+	<!-- 根据id查询username -->
+	<select id="getNameById" parameterType="int" resultType="java.lang.String">
+		select userName from user where id=#{id};
+	</select>
+	
+	<update id="updateUserInf" parameterType="user">
+		update user set email=#{email},telephone=#{telephone} where id=#{id}
+	</update>
+	
+	<select id="getUser" resultType="user">
+		select * from user;
+	</select>
+	
+	<update id="liftRole" parameterType="int">
+		update user set userRole='admin' where id =#{id};
+	</update>
+	
+	<delete id="deleteUser" parameterType="int">
+		delete from user where id=#{id}
+	</delete>
+	
+	<delete id="deleteNews" parameterType="int">
+		delete from news where userId=#{id}
+	</delete>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from comment where userId=#{id}
+	</delete>
+	
+	
+</mapper>
